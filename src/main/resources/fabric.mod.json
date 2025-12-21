@@ -1,33 +1,33 @@
 {
-  "schemaVersion": 1,
-  "id": "${mod_id}",
-  "version": "${mod_version}",
-  "name": "${mod_name}",
-  "description": "${mod_description}",
-  "authors": ["tobynguyen27"],
-  "contact": {
-    "email": "hi@tobynguyen.dev",
-    "homepage": "https://github.com/tobynguyen27/${mod_name}",
-    "issues": "https://github.com/tobynguyen27/${mod_name}/issues",
-    "sources": "https://github.com/tobynguyen27/${mod_name}"
-  },
-  "license": "${mod_license}",
-  "icon": "assets/sense/icon.png",
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      {
-        "value": "dev.tobynguyen27.sense.Sense",
-        "adapter": "kotlin"
-      }
-    ]
-  },
-  "mixins": ["sense.mixins.json"],
-  "depends": {
-    "fabricloader": ">=0.18.1",
-    "minecraft": "~1.18.2",
-    "java": ">=17",
-    "fabric-api": "*",
-    "fabric-language-kotlin": "*"
-  }
+    "schemaVersion": 1,
+    "id": "${mod_id}",
+    "version": "${mod_version}",
+    "name": "${mod_name}",
+    "description": "${mod_description}",
+    "authors": ["tobynguyen27"],
+    "contact": {
+        "email": "hi@tobynguyen.dev",
+        "homepage": "https://github.com/tobynguyen27/${mod_name}",
+        "issues": "https://github.com/tobynguyen27/${mod_name}/issues",
+        "sources": "https://github.com/tobynguyen27/${mod_name}"
+    },
+    "license": "${mod_license}",
+    "icon": "assets/sense/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            {
+                "value": "dev.tobynguyen27.sense.Sense",
+                "adapter": "kotlin"
+            }
+        ]
+    },
+    "mixins": ["sense.mixins.json"],
+    "depends": {
+        "fabricloader": ">=0.18.1",
+        "minecraft": "~1.18.2",
+        "java": ">=17",
+        "fabric-api": "*",
+        "fabric-language-kotlin": "*"
+    }
 }
