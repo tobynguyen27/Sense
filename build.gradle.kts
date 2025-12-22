@@ -56,6 +56,32 @@ dependencies {
     }
 }
 
+sourceSets {
+    val testmod by creating {
+        val main = sourceSets.getByName<SourceSet>("main")
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+    }
+}
+
+loom {
+    runs {
+        val testmod = sourceSets.getByName("testmod")
+
+        val testmodClient by creating {
+            client()
+            name = "Testmod Client"
+            source(testmod)
+        }
+
+        val testmodServer by creating {
+            server()
+            name = "Testmod Server"
+            source(testmod)
+        }
+    }
+}
+
 tasks.named<Test>("test") { useJUnitPlatform() }
 
 tasks.withType<ProcessResources>().configureEach {
