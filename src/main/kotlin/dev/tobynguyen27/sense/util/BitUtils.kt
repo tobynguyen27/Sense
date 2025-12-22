@@ -11,19 +11,12 @@ object BitUtils {
      */
     fun getBitAt(index: Int, number: Long): Long = (number shr index) and 1L
 
-    /**
-     * Turn off the index-th in [number].
-     */
+    /** Turn off the index-th in [number]. */
     fun turnOffBitAt(index: Int, number: Long): Long = number and (1L shl index).inv()
 
-    /**
-     * Turn on the index-th in [number].
-     */
+    /** Turn on the index-th in [number]. */
     fun turnOnBitAt(index: Int, number: Long): Long = number or (1L shl index)
 
-    /**
-     * Fip the index-th in [number].
-     */
+    /** Fip the index-th in [number]. */
     fun flipBitAt(index: Int, number: Long): Long = number xor (1L shl index)
-
 }

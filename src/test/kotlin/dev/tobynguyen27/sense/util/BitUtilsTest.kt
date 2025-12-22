@@ -38,5 +38,4 @@ class BitUtilsTest {
 
         assertEquals(expected, flipBitAt(0, bits))
     }
-
 }

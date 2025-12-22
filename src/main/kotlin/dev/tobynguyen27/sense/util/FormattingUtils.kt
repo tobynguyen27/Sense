@@ -23,5 +23,4 @@ object FormattingUtils {
     fun decapitalizeFirstLetter(string: String): String {
         return string.replaceFirstChar { it.lowercase() }
     }
-
 }
