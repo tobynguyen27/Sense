@@ -31,31 +31,6 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    val fabric_version: String by project
-    val fabric_kotlin_version: String by project
-
-    val modmenu_version: String by project
-
-    minecraft("com.mojang:minecraft:$minecraft_version")
-    mappings(
-        loom.layered {
-            officialMojangMappings()
-            parchment("org.parchmentmc.data:parchment-1.18.2:2022.11.06@zip")
-        }
-    )
-
-    testImplementation("net.fabricmc:fabric-loader-junit:$loader_version")
-
-    modImplementation("net.fabricmc:fabric-loader:$loader_version")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:$fabric_version")
-    modImplementation("net.fabricmc:fabric-language-kotlin:$fabric_kotlin_version")
-
-    modImplementation("com.terraformersmc:modmenu:$modmenu_version") {
-        exclude(group = "net.fabricmc")
-    }
-}
-
 sourceSets {
     val testmod by creating {
         val main = sourceSets.getByName<SourceSet>("main")
@@ -80,6 +55,33 @@ loom {
             source(testmod)
         }
     }
+}
+
+dependencies {
+    val fabric_version: String by project
+    val fabric_kotlin_version: String by project
+
+    val modmenu_version: String by project
+
+    minecraft("com.mojang:minecraft:$minecraft_version")
+    mappings(
+        loom.layered {
+            officialMojangMappings()
+            parchment("org.parchmentmc.data:parchment-1.18.2:2022.11.06@zip")
+        }
+    )
+
+    testImplementation("net.fabricmc:fabric-loader-junit:$loader_version")
+
+    modImplementation("net.fabricmc:fabric-loader:$loader_version")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:$fabric_version")
+    modImplementation("net.fabricmc:fabric-language-kotlin:$fabric_kotlin_version")
+
+    modImplementation("com.terraformersmc:modmenu:$modmenu_version") {
+        exclude(group = "net.fabricmc")
+    }
+
+    "testmodImplementation"(sourceSets.main.get().output)
 }
 
 tasks.named<Test>("test") { useJUnitPlatform() }
