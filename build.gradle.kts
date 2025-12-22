@@ -58,6 +58,7 @@ tasks.named<Test>("test") {
 
 tasks.withType<ProcessResources>().configureEach {
     val replaceProperties = hashMapOf(
+        "loader_version"         to loader_version,
         "minecraft_version"      to minecraft_version,
         "mod_id"                 to mod_id,
         "mod_name"               to mod_name,
@@ -77,13 +78,8 @@ tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-
-    withSourcesJar()
-    withJavadocJar()
+kotlin {
+    jvmToolchain(17)
 }
 
 tasks.named<Jar>("jar") {
