@@ -5,7 +5,8 @@ plugins {
     id("maven-publish")
 }
 
-val runNumber = if(System.getenv("GITHUB_RUN_NUMBER") == null) "9999" else System.getenv("GITHUB_RUN_NUMBER")
+val runNumber =
+    if (System.getenv("GITHUB_RUN_NUMBER") == null) "9999" else System.getenv("GITHUB_RUN_NUMBER")
 val isRelease = project.hasProperty("release")
 
 val minecraft_version: String by project
@@ -18,7 +19,8 @@ val mod_description: String by project
 val mod_license: String by project
 val maven_group: String by project
 
-version = if(isRelease) mod_version else "$mod_version-build.$runNumber"
+version = if (isRelease) mod_version else "$mod_version-build.$runNumber"
+
 group = maven_group
 
 base.archivesName = mod_id
@@ -36,10 +38,12 @@ dependencies {
     val modmenu_version: String by project
 
     minecraft("com.mojang:minecraft:$minecraft_version")
-    mappings(loom.layered {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-1.18.2:2022.11.06@zip")
-    })
+    mappings(
+        loom.layered {
+            officialMojangMappings()
+            parchment("org.parchmentmc.data:parchment-1.18.2:2022.11.06@zip")
+        }
+    )
 
     testImplementation("net.fabricmc:fabric-loader-junit:$loader_version")
 
@@ -52,42 +56,33 @@ dependencies {
     }
 }
 
-tasks.named<Test>("test") {
-    useJUnitPlatform()
-}
+tasks.named<Test>("test") { useJUnitPlatform() }
 
 tasks.withType<ProcessResources>().configureEach {
-    val replaceProperties = hashMapOf(
-        "loader_version"         to loader_version,
-        "minecraft_version"      to minecraft_version,
-        "mod_id"                 to mod_id,
-        "mod_name"               to mod_name,
-        "mod_license"            to mod_license,
-        "mod_version"            to mod_version,
-        "mod_description"        to mod_description
-    )
+    val replaceProperties =
+        hashMapOf(
+            "loader_version" to loader_version,
+            "minecraft_version" to minecraft_version,
+            "mod_id" to mod_id,
+            "mod_name" to mod_name,
+            "mod_license" to mod_license,
+            "mod_version" to mod_version,
+            "mod_description" to mod_description,
+        )
 
     inputs.properties(replaceProperties)
 
-    filesMatching(setOf("fabric.mod.json")) {
-        expand(replaceProperties)
-    }
+    filesMatching(setOf("fabric.mod.json")) { expand(replaceProperties) }
 }
 
-tasks.withType<JavaCompile>().configureEach {
-    options.encoding = "UTF-8"
-}
+tasks.withType<JavaCompile>().configureEach { options.encoding = "UTF-8" }
 
-kotlin {
-    jvmToolchain(17)
-}
+kotlin { jvmToolchain(17) }
 
 tasks.named<Jar>("jar") {
     inputs.property("archivesName", project.base.archivesName)
 
-    from("LICENSE") {
-        rename { "${it}_${inputs.properties["archivesName"]}" }
-    }
+    from("LICENSE") { rename { "${it}_${inputs.properties["archivesName"]}" } }
 }
 
 spotless {
@@ -97,6 +92,11 @@ spotless {
         ktfmt().kotlinlangStyle()
         endWithNewline()
         toggleOffOn()
+    }
+
+    kotlinGradle {
+        target("*.gradle.kts")
+        ktfmt().kotlinlangStyle()
     }
 
     java {
@@ -109,7 +109,9 @@ spotless {
         target("src/*/resources/**/*.json")
         targetExclude("src/generated/resources/**")
 
-        biome("2.3.7").downloadDir(File(rootDir, ".gradle/biome").absolutePath).configPath(File(rootDir, "spotless/biome.json").absolutePath)
+        biome("2.3.7")
+            .downloadDir(File(rootDir, ".gradle/biome").absolutePath)
+            .configPath(File(rootDir, "spotless/biome.json").absolutePath)
 
         endWithNewline()
     }
@@ -135,7 +137,7 @@ publishing {
                 url = uri("https://maven.tobynguyen.dev/releases")
                 credentials {
                     username = mavenUsername
-                            password = mavenPassword
+                    password = mavenPassword
                 }
             }
         } else {
