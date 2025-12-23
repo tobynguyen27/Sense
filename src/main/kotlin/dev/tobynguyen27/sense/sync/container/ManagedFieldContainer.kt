@@ -47,6 +47,12 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
             }
 
             when (type) {
+                Byte::class.java -> managedFields.add(
+                    registerPrimitiveAccessor(name, CompoundTag::getByte, CompoundTag::putByte)
+                )
+                Short::class.java -> managedFields.add(
+                    registerPrimitiveAccessor(name, CompoundTag::getShort, CompoundTag::putShort)
+                )
                 Int::class.java ->
                     managedFields.add(
                         registerPrimitiveAccessor(name, CompoundTag::getInt, CompoundTag::putInt)
@@ -71,6 +77,13 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
                             CompoundTag::putDouble,
                         )
                     )
+                Boolean::class.java -> managedFields.add(
+                    registerPrimitiveAccessor(name, CompoundTag::getBoolean, CompoundTag::putBoolean)
+                )
+
+                String::class.java -> managedFields.add(
+                    registerPrimitiveAccessor(name, CompoundTag::getString, CompoundTag::putString)
+                )
             }
         }
     }
