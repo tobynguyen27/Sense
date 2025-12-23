@@ -26,8 +26,18 @@ class AlphaBlock : BaseEntityBlock(FabricBlockSettings.of(Material.METAL)) {
         if (!level.isClientSide) {
             val be = level.getBlockEntity(pos) as? AlphaBlockEntity ?: return InteractionResult.FAIL
 
-            be.count++
-            be.setChanged()
+            with(be) {
+                alpha++
+                beta++
+                gamma++
+                delta++
+                epsilon++
+                zeta++
+                eta = !eta
+                theta += theta
+
+                setChanged()
+            }
         }
 
         return InteractionResult.SUCCESS

@@ -13,12 +13,41 @@ class AlphaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     val container = ManagedFieldContainer(this)
 
-    @Permanent var count = 0
+    @Permanent
+    var alpha: Byte = 2
+
+    @Permanent
+    var beta: Short = 10
+
+    @Permanent
+    var gamma = 0
+
+    @Permanent
+    var delta = 0L
+
+    @Permanent
+    var epsilon = 0F
+
+    @Permanent
+    var zeta = 0.0
+
+    @Permanent
+    var eta = true
+
+    @Permanent
+    var theta = "Theta"
 
     override fun setChanged() {
         super.setChanged()
 
-        TestMod.LOGGER.info(count.toString())
+        println(alpha)
+        println(beta)
+        println(gamma)
+        println(delta)
+        println(epsilon)
+        println(zeta)
+        println(eta)
+        println(theta)
     }
 
     override fun getFieldContainer(): ManagedFieldContainer = container
