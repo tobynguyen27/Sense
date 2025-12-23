@@ -2,6 +2,7 @@ package dev.tobynguyen27.testmod.block.beta
 
 import dev.tobynguyen27.sense.sync.SenseBlockEntity
 import dev.tobynguyen27.sense.sync.annotation.Permanent
+import dev.tobynguyen27.sense.sync.annotation.Synced
 import dev.tobynguyen27.sense.sync.container.ManagedFieldContainer
 import dev.tobynguyen27.testmod.TestMod
 import dev.tobynguyen27.testmod.registry.BlockRegistry
@@ -13,7 +14,7 @@ class BetaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     val container = ManagedFieldContainer(this)
 
-    @Permanent var alpha = 0
+    @Synced @Permanent var alpha = 0
 
     override fun setChanged() {
         super.setChanged()

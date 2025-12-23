@@ -39,8 +39,7 @@ object BlockRegistry {
         Registry.register(
             Registry.BLOCK_ENTITY_TYPE,
             Identifier("beta_block"),
-            BlockEntityType.Builder.of<BetaBlockEntity>(::BetaBlockEntity, BETA_BLOCK)
-                .build(null),
+            BlockEntityType.Builder.of<BetaBlockEntity>(::BetaBlockEntity, BETA_BLOCK).build(null),
         )
 
     fun register() {}
