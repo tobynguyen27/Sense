@@ -29,5 +29,10 @@
         "java": ">=17",
         "fabric-api": "*",
         "fabric-language-kotlin": "*"
+    },
+    "custom": {
+        "modmenu": {
+            "badges": [ "library" ]
+        }
     }
 }
