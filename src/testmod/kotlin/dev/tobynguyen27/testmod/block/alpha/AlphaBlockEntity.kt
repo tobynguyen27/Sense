@@ -3,7 +3,6 @@ package dev.tobynguyen27.testmod.block.alpha
 import dev.tobynguyen27.sense.sync.SenseBlockEntity
 import dev.tobynguyen27.sense.sync.annotation.Permanent
 import dev.tobynguyen27.sense.sync.container.ManagedFieldContainer
-import dev.tobynguyen27.testmod.TestMod
 import dev.tobynguyen27.testmod.registry.BlockRegistry
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.block.state.BlockState
@@ -13,29 +12,21 @@ class AlphaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     val container = ManagedFieldContainer(this)
 
-    @Permanent
-    var alpha: Byte = 2
+    @Permanent var alpha: Byte = 2
 
-    @Permanent
-    var beta: Short = 10
+    @Permanent var beta: Short = 10
 
-    @Permanent
-    var gamma = 0
+    @Permanent var gamma = 0
 
-    @Permanent
-    var delta = 0L
+    @Permanent var delta = 0L
 
-    @Permanent
-    var epsilon = 0F
+    @Permanent var epsilon = 0F
 
-    @Permanent
-    var zeta = 0.0
+    @Permanent var zeta = 0.0
 
-    @Permanent
-    var eta = true
+    @Permanent var eta = true
 
-    @Permanent
-    var theta = "Theta"
+    @Permanent var theta = "Theta"
 
     override fun setChanged() {
         super.setChanged()
