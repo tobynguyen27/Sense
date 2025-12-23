@@ -1,8 +1,9 @@
 package dev.tobynguyen27.sense.sync.container
 
+import dev.tobynguyen27.sense.Sense
 import dev.tobynguyen27.sense.sync.accessor.Accessor
-import dev.tobynguyen27.sense.sync.accessor.PrimitiveAccessor
 import dev.tobynguyen27.sense.sync.annotation.Permanent
+import dev.tobynguyen27.sense.sync.registry.AccessorProviderRegistries
 import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentHashMap
 import net.minecraft.nbt.CompoundTag
@@ -28,62 +29,15 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
 
         fields.forEach { field ->
             val annotation = field.getAnnotation(Permanent::class.java)
-            val type = field.type
             val name = annotation.key.ifEmpty { field.name }
 
-            @Suppress("UNCHECKED_CAST")
-            fun <T> registerPrimitiveAccessor(
-                name: String,
-                reader: (CompoundTag, String) -> T,
-                writer: (CompoundTag, String, T) -> Unit,
-            ): PrimitiveAccessor<T> {
-                return PrimitiveAccessor(
-                    name,
-                    { field.get(owner) as T },
-                    { field.set(owner, it) },
-                    reader,
-                    writer,
+            val provider = AccessorProviderRegistries.get(field)
+            if (provider == null) {
+                Sense.LOGGER.error(
+                    "There is no provider for field ${field.name} with type ${field.type.simpleName}"
                 )
-            }
-
-            when (type) {
-                Byte::class.java -> managedFields.add(
-                    registerPrimitiveAccessor(name, CompoundTag::getByte, CompoundTag::putByte)
-                )
-                Short::class.java -> managedFields.add(
-                    registerPrimitiveAccessor(name, CompoundTag::getShort, CompoundTag::putShort)
-                )
-                Int::class.java ->
-                    managedFields.add(
-                        registerPrimitiveAccessor(name, CompoundTag::getInt, CompoundTag::putInt)
-                    )
-                Long::class.java ->
-                    managedFields.add(
-                        registerPrimitiveAccessor(name, CompoundTag::getLong, CompoundTag::putLong)
-                    )
-                Float::class.java ->
-                    managedFields.add(
-                        registerPrimitiveAccessor(
-                            name,
-                            CompoundTag::getFloat,
-                            CompoundTag::putFloat,
-                        )
-                    )
-                Double::class.java ->
-                    managedFields.add(
-                        registerPrimitiveAccessor(
-                            name,
-                            CompoundTag::getDouble,
-                            CompoundTag::putDouble,
-                        )
-                    )
-                Boolean::class.java -> managedFields.add(
-                    registerPrimitiveAccessor(name, CompoundTag::getBoolean, CompoundTag::putBoolean)
-                )
-
-                String::class.java -> managedFields.add(
-                    registerPrimitiveAccessor(name, CompoundTag::getString, CompoundTag::putString)
-                )
+            } else {
+                managedFields.add(provider.create(name, field, owner))
             }
         }
     }
