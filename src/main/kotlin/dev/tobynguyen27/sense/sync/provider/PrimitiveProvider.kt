@@ -9,16 +9,30 @@ object PrimitiveProvider : AccessorProvider {
 
     private val READERS =
         mapOf<Class<*>, (CompoundTag, String) -> Any>(
-            Int::class.java to { tag, name -> tag.getInt(name) }
+            Byte::class.java to { tag, name -> tag.getByte(name) },
+            Short::class.java to { tag, name -> tag.getShort(name) },
+            Int::class.java to { tag, name -> tag.getInt(name) },
+            Long::class.java to { tag, name -> tag.getLong(name) },
+            Float::class.java to { tag, name -> tag.getFloat(name) },
+            Double::class.java to { tag, name -> tag.getDouble(name) },
+            Boolean::class.java to { tag, name -> tag.getBoolean(name) },
+            String::class.java to { tag, name -> tag.getString(name) },
         )
 
     private val WRITERS =
         mapOf<Class<*>, (CompoundTag, String, Any) -> Unit>(
-            Int::class.java to { tag, name, value -> tag.putInt(name, value as Int) }
+            Byte::class.java to { tag, name, value -> tag.putByte(name, value as Byte) },
+            Short::class.java to { tag, name, value -> tag.putShort(name, value as Short) },
+            Int::class.java to { tag, name, value -> tag.putInt(name, value as Int) },
+            Long::class.java to { tag, name, value -> tag.putLong(name, value as Long) },
+            Float::class.java to { tag, name, value -> tag.putFloat(name, value as Float) },
+            Double::class.java to { tag, name, value -> tag.putDouble(name, value as Double) },
+            Boolean::class.java to { tag, name, value -> tag.putBoolean(name, value as Boolean) },
+            String::class.java to { tag, name, value -> tag.putString(name, value as String) },
         )
 
     override fun isSupported(field: Field): Boolean {
-        return READERS.contains(field.type) // should I also check writer ?
+        return READERS.contains(field.type)
     }
 
     override fun create(name: String, field: Field, owner: Any): Accessor {
