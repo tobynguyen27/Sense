@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.material.Material
 import net.minecraft.world.phys.BlockHitResult
 
-class AlphaBlock: BaseEntityBlock(FabricBlockSettings.of(Material.METAL)) {
+class AlphaBlock : BaseEntityBlock(FabricBlockSettings.of(Material.METAL)) {
 
     override fun use(
         state: BlockState,
@@ -21,9 +21,9 @@ class AlphaBlock: BaseEntityBlock(FabricBlockSettings.of(Material.METAL)) {
         pos: BlockPos,
         player: Player,
         hand: InteractionHand,
-        hit: BlockHitResult
+        hit: BlockHitResult,
     ): InteractionResult {
-        if(!level.isClientSide) {
+        if (!level.isClientSide) {
             val be = level.getBlockEntity(pos) as? AlphaBlockEntity ?: return InteractionResult.FAIL
 
             be.count++
@@ -33,10 +33,7 @@ class AlphaBlock: BaseEntityBlock(FabricBlockSettings.of(Material.METAL)) {
         return InteractionResult.SUCCESS
     }
 
-    override fun newBlockEntity(
-        pos: BlockPos,
-        state: BlockState
-    ): BlockEntity {
+    override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
         return AlphaBlockEntity(pos, state)
     }
 

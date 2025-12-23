@@ -12,12 +12,19 @@ import net.minecraft.world.level.block.entity.BlockEntityType
 object BlockRegistry {
 
     val ALPHA_BLOCK = Registry.register(Registry.BLOCK, Identifier("alpha_block"), AlphaBlock())
-    val ALPHA_BLOCK_ITEM = Registry.register(Registry.ITEM, Identifier("alpha_block"), BlockItem(
-        ALPHA_BLOCK, FabricItemSettings().group(CreativeModeTab.TAB_MISC)))
-    val ALPHA_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier("alpha_block"),
-        BlockEntityType.Builder.of<AlphaBlockEntity>(::AlphaBlockEntity, ALPHA_BLOCK).build(null)
-    )
+    val ALPHA_BLOCK_ITEM =
+        Registry.register(
+            Registry.ITEM,
+            Identifier("alpha_block"),
+            BlockItem(ALPHA_BLOCK, FabricItemSettings().group(CreativeModeTab.TAB_MISC)),
+        )
+    val ALPHA_BLOCK_ENTITY =
+        Registry.register(
+            Registry.BLOCK_ENTITY_TYPE,
+            Identifier("alpha_block"),
+            BlockEntityType.Builder.of<AlphaBlockEntity>(::AlphaBlockEntity, ALPHA_BLOCK)
+                .build(null),
+        )
 
     fun register() {}
-
 }
