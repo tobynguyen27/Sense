@@ -1,7 +1,7 @@
 package dev.tobynguyen27.sense.sync.container
 
 import dev.tobynguyen27.sense.sync.accessor.Accessor
-import dev.tobynguyen27.sense.sync.accessor.IntAccessor
+import dev.tobynguyen27.sense.sync.accessor.PrimitiveAccessor
 import dev.tobynguyen27.sense.sync.annotation.Permanent
 import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentHashMap
@@ -20,7 +20,7 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
             }
         }
     }
-    
+
     val managedFields = mutableListOf<Accessor>()
 
     init {
@@ -29,13 +29,47 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
         fields.forEach { field ->
             val annotation = field.getAnnotation(Permanent::class.java)
             val type = field.type
-            val name = field.name
-            val key = annotation.key.ifEmpty { name }
+            val name = annotation.key.ifEmpty { field.name }
+
+            @Suppress("UNCHECKED_CAST")
+            fun <T> registerPrimitiveAccessor(
+                name: String,
+                reader: (CompoundTag, String) -> T,
+                writer: (CompoundTag, String, T) -> Unit,
+            ): PrimitiveAccessor<T> {
+                return PrimitiveAccessor(
+                    name,
+                    { field.get(owner) as T },
+                    { field.set(owner, it) },
+                    reader,
+                    writer,
+                )
+            }
 
             when (type) {
                 Int::class.java ->
                     managedFields.add(
-                        IntAccessor(key, { field.get(owner) as Int }, { field.set(owner, it) })
+                        registerPrimitiveAccessor(name, CompoundTag::getInt, CompoundTag::putInt)
+                    )
+                Long::class.java ->
+                    managedFields.add(
+                        registerPrimitiveAccessor(name, CompoundTag::getLong, CompoundTag::putLong)
+                    )
+                Float::class.java ->
+                    managedFields.add(
+                        registerPrimitiveAccessor(
+                            name,
+                            CompoundTag::getFloat,
+                            CompoundTag::putFloat,
+                        )
+                    )
+                Double::class.java ->
+                    managedFields.add(
+                        registerPrimitiveAccessor(
+                            name,
+                            CompoundTag::getDouble,
+                            CompoundTag::putDouble,
+                        )
                     )
             }
         }
