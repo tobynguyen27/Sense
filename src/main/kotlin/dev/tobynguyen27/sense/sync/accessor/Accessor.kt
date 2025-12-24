@@ -6,6 +6,8 @@ interface Accessor {
 
     fun isChanged(): Boolean
 
+    fun updateLastValue()
+
     fun saveNbt(tag: CompoundTag)
 
     fun loadNbt(tag: CompoundTag)

@@ -13,6 +13,10 @@ class PrimitiveAccessor<T>(
 
     private var lastValue = SyncUtil.copy(getter())
 
+    override fun updateLastValue() {
+        lastValue = SyncUtil.copy(getter())
+    }
+
     override fun isChanged(): Boolean {
         return SyncUtil.isChanged(lastValue, getter())
     }

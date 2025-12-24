@@ -78,6 +78,7 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
         syncedFields.forEach {
             if (it.isChanged()) {
                 it.saveNbt(tag)
+                it.updateLastValue()
                 isDirty = true
             }
         }
@@ -95,5 +96,13 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
 
     fun loadPermanentFields(tag: CompoundTag) {
         permanentFields.forEach { it.loadNbt(tag) }
+    }
+
+    fun writeSyncFields(tag: CompoundTag) {
+        syncedFields.forEach { it.saveNbt(tag) }
+    }
+
+    fun readSyncedFields(tag: CompoundTag) {
+        syncedFields.forEach { it.loadNbt(tag) }
     }
 }
