@@ -15,7 +15,9 @@ object BetaBlockLogical {
     ) {
         if (level.gameTime % 120 != 0L) return
 
-        TestMod.LOGGER.info(blockEntity.alpha.toString())
+        //TestMod.LOGGER.info(blockEntity.alpha.toString())
+blockEntity.alpha++
+        blockEntity.setChanged()
 
         blockEntity.syncTick()
     }
@@ -28,6 +30,6 @@ object BetaBlockLogical {
     ) {
         if (level.gameTime % 120 != 0L) return
 
-        TestMod.LOGGER.info(blockEntity.alpha.toString())
+        //TestMod.LOGGER.info(blockEntity.alpha.toString())
     }
 }

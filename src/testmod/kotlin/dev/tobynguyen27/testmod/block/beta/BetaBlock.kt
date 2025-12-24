@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.material.Material
 import net.minecraft.world.phys.BlockHitResult
+import java.awt.TextComponent
 
 class BetaBlock : BaseEntityBlock(FabricBlockSettings.of(Material.METAL)) {
 
@@ -29,9 +30,8 @@ class BetaBlock : BaseEntityBlock(FabricBlockSettings.of(Material.METAL)) {
     ): InteractionResult {
         val be = level.getBlockEntity(pos) as? BetaBlockEntity ?: return InteractionResult.FAIL
         if (!level.isClientSide) {
-            be.alpha++
-            be.setChanged()
         } else {
+            player.displayClientMessage(net.minecraft.network.chat.TextComponent("Current value: ${be.alpha}"), true)
             //TestMod.LOGGER.info(be.alpha.toString())
         }
 
