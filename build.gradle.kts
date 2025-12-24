@@ -3,6 +3,7 @@ plugins {
     kotlin("jvm") version "2.3.0"
     id("com.diffplug.spotless") version "8.1.0"
     id("maven-publish")
+    id("idea")
 }
 
 val runNumber =
@@ -177,5 +178,12 @@ publishing {
                 }
             }
         }
+    }
+}
+
+idea {
+    module {
+        isDownloadSources = true
+        isDownloadJavadoc = true
     }
 }
