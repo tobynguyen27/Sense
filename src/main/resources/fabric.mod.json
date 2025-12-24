@@ -20,6 +20,12 @@
                 "value": "dev.tobynguyen27.sense.Sense",
                 "adapter": "kotlin"
             }
+        ],
+        "client": [
+            {
+                "value": "dev.tobynguyen27.sense.client.SenseClient",
+                "adapter": "kotlin"
+            }
         ]
     },
     "mixins": ["sense.mixins.json"],
