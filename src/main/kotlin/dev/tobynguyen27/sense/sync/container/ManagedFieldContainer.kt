@@ -3,9 +3,9 @@ package dev.tobynguyen27.sense.sync.container
 import dev.tobynguyen27.sense.Sense
 import dev.tobynguyen27.sense.sync.accessor.Accessor
 import dev.tobynguyen27.sense.sync.annotation.Permanent
+import dev.tobynguyen27.sense.sync.annotation.Synced
 import dev.tobynguyen27.sense.sync.registry.AccessorProviderRegistries
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.sequences.ifEmpty
 import net.minecraft.nbt.CompoundTag
 
 class ManagedFieldContainer(val owner: ManagedFieldAware) {
@@ -15,42 +15,65 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
         fun getCachedFields(clazz: Class<*>): List<ManagedField> {
             return CONTAINER_CACHE.computeIfAbsent(clazz) {
                 it.declaredFields
-                    .filter { field -> field.isAnnotationPresent(Permanent::class.java) }
                     .onEach { field -> field.isAccessible = true }
                     .mapNotNull { field ->
-                        val annotation = field.getAnnotation(Permanent::class.java)
-                        val name = annotation.key.ifEmpty { field.name }
-                        val provider = AccessorProviderRegistries.get(field)
+                        val provider =
+                            AccessorProviderRegistries.get(field)
+                                ?: run {
+                                    Sense.LOGGER.error(
+                                        "There is no provider for field ${field.name} with type ${field.type.simpleName}"
+                                    )
+                                    return@mapNotNull null
+                                }
 
-                        if (provider == null) {
-                            Sense.LOGGER.error(
-                                "There is no provider for field ${field.name} with type ${field.type.simpleName}"
-                            )
-                            null
-                        } else {
-                            ManagedField(name, field, provider)
-                        }
+                        val permanentAnnotation = field.getAnnotation(Permanent::class.java)
+                        val syncedAnnotation = field.getAnnotation(Synced::class.java)
+
+                        val hasPermanent = permanentAnnotation != null
+                        val hasSynced = syncedAnnotation != null
+
+                        if(!hasPermanent && !hasSynced) return@mapNotNull null
+
+                        val name =
+                            if (hasPermanent && permanentAnnotation.key.isNotEmpty())
+                                permanentAnnotation.key
+                            else field.name
+
+                        ManagedField(
+                            name,
+                            field,
+                            provider,
+                            ManagedFieldFlags.Builder.apply {
+                                    if (hasPermanent) with(ManagedFieldType.PERMANENT)
+                                    if (hasSynced) with(ManagedFieldType.SYNCED)
+                                }
+                                .build(),
+                        )
                     }
                     .toList()
             }
         }
     }
 
-    val managedFields = mutableListOf<Accessor>()
+    val permanentFields = mutableListOf<Accessor>()
+    val syncedFields = mutableListOf<Accessor>()
 
     init {
         val fields = getCachedFields(owner.javaClass)
 
         fields.forEach { field ->
-            managedFields.add(field.provider.create(field.name, field.field, owner))
+            if (field.types.has(ManagedFieldType.PERMANENT))
+                permanentFields.add(field.provider.create(field.name, field.field, owner))
+            if (field.types.has(ManagedFieldType.SYNCED))
+                syncedFields.add(field.provider.create(field.name, field.field, owner))
         }
     }
 
     fun savePermanentFields(tag: CompoundTag) {
-        managedFields.forEach { it.saveNbt(tag) }
+        permanentFields.forEach { it.saveNbt(tag) }
     }
 
     fun loadPermanentFields(tag: CompoundTag) {
-        managedFields.forEach { it.loadNbt(tag) }
+        permanentFields.forEach { it.loadNbt(tag) }
     }
 }
