@@ -1,6 +1,5 @@
 package dev.tobynguyen27.sense.network
 
-import dev.tobynguyen27.sense.Sense
 import dev.tobynguyen27.sense.sync.SenseBlockEntity
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs

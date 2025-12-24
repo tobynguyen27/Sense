@@ -1,7 +1,7 @@
 package dev.tobynguyen27.testmod.block.beta
 
-import dev.tobynguyen27.testmod.TestMod
 import dev.tobynguyen27.testmod.registry.BlockRegistry
+import java.awt.TextComponent
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.core.BlockPos
 import net.minecraft.world.InteractionHand
@@ -16,7 +16,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.material.Material
 import net.minecraft.world.phys.BlockHitResult
-import java.awt.TextComponent
 
 class BetaBlock : BaseEntityBlock(FabricBlockSettings.of(Material.METAL)) {
 
@@ -29,10 +28,12 @@ class BetaBlock : BaseEntityBlock(FabricBlockSettings.of(Material.METAL)) {
         hit: BlockHitResult,
     ): InteractionResult {
         val be = level.getBlockEntity(pos) as? BetaBlockEntity ?: return InteractionResult.FAIL
-        if (!level.isClientSide) {
-        } else {
-            player.displayClientMessage(net.minecraft.network.chat.TextComponent("Current value: ${be.alpha}"), true)
-            //TestMod.LOGGER.info(be.alpha.toString())
+        if (!level.isClientSide) {} else {
+            player.displayClientMessage(
+                net.minecraft.network.chat.TextComponent("Current value: ${be.alpha}"),
+                true,
+            )
+            // TestMod.LOGGER.info(be.alpha.toString())
         }
 
         return InteractionResult.SUCCESS

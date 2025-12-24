@@ -1,6 +1,5 @@
 package dev.tobynguyen27.testmod.block.beta
 
-import dev.tobynguyen27.testmod.TestMod
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
@@ -15,8 +14,8 @@ object BetaBlockLogical {
     ) {
         if (level.gameTime % 120 != 0L) return
 
-        //TestMod.LOGGER.info(blockEntity.alpha.toString())
-blockEntity.alpha++
+        // TestMod.LOGGER.info(blockEntity.alpha.toString())
+        blockEntity.alpha++
         blockEntity.setChanged()
 
         blockEntity.syncTick()
@@ -30,6 +29,6 @@ blockEntity.alpha++
     ) {
         if (level.gameTime % 120 != 0L) return
 
-        //TestMod.LOGGER.info(blockEntity.alpha.toString())
+        // TestMod.LOGGER.info(blockEntity.alpha.toString())
     }
 }

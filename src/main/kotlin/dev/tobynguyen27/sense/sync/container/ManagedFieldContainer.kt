@@ -63,10 +63,8 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
 
         fields.forEach { field ->
             val accessor = field.provider.create(field.name, field.field, owner)
-            if (field.types.has(ManagedFieldType.PERMANENT))
-                permanentFields.add(accessor)
-            if (field.types.has(ManagedFieldType.SYNCED))
-                syncedFields.add(accessor)
+            if (field.types.has(ManagedFieldType.PERMANENT)) permanentFields.add(accessor)
+            if (field.types.has(ManagedFieldType.SYNCED)) syncedFields.add(accessor)
         }
     }
 
