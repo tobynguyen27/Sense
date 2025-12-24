@@ -32,7 +32,7 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
                         val hasPermanent = permanentAnnotation != null
                         val hasSynced = syncedAnnotation != null
 
-                        if(!hasPermanent && !hasSynced) return@mapNotNull null
+                        if (!hasPermanent && !hasSynced) return@mapNotNull null
 
                         val name =
                             if (hasPermanent && permanentAnnotation.key.isNotEmpty())
@@ -66,6 +66,26 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
                 permanentFields.add(field.provider.create(field.name, field.field, owner))
             if (field.types.has(ManagedFieldType.SYNCED))
                 syncedFields.add(field.provider.create(field.name, field.field, owner))
+        }
+    }
+
+    fun collectDirtyFields(): CompoundTag? {
+        // We only return CompoundTag when we have at least 1 value changed. Minecraft doesn't
+        // handle empty packet
+        val tag = CompoundTag()
+        var isDirty = false
+
+        syncedFields.forEach {
+            if (it.isChanged()) {
+                it.saveNbt(tag)
+                isDirty = true
+            }
+        }
+
+        return if (isDirty) {
+            tag
+        } else {
+            null
         }
     }
 

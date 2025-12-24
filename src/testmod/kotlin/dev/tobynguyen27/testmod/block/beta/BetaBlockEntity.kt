@@ -19,7 +19,7 @@ class BetaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     override fun setChanged() {
         super.setChanged()
 
-        TestMod.LOGGER.info(alpha.toString())
+        //TestMod.LOGGER.info(alpha.toString())
     }
 
     override fun getFieldContainer(): ManagedFieldContainer = container
