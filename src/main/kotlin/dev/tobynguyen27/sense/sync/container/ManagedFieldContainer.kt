@@ -3,11 +3,12 @@ package dev.tobynguyen27.sense.sync.container
 import dev.tobynguyen27.sense.sync.accessor.Accessor
 import dev.tobynguyen27.sense.sync.annotation.Permanent
 import dev.tobynguyen27.sense.sync.annotation.Synced
+import dev.tobynguyen27.sense.sync.blockentity.AutoManagedBlockEntity
 import dev.tobynguyen27.sense.sync.registry.AccessorProviderRegistries
 import java.util.concurrent.ConcurrentHashMap
 import net.minecraft.nbt.CompoundTag
 
-class ManagedFieldContainer(val owner: ManagedFieldAware) {
+class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
     companion object {
         val CONTAINER_CACHE = ConcurrentHashMap<Class<*>, List<ManagedField>>()
 
@@ -32,13 +33,7 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
                                 permanentAnnotation.key
                             else field.name
 
-                        ManagedField(
-                            name,
-                            field,
-                            provider,
-                            hasPermanent,
-                            hasSynced
-                        )
+                        ManagedField(name, field, provider, hasPermanent, hasSynced)
                     }
                     .toList()
             }

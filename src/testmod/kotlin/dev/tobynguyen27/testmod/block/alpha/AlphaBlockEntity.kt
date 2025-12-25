@@ -1,16 +1,17 @@
 package dev.tobynguyen27.testmod.block.alpha
 
-import dev.tobynguyen27.sense.sync.SenseBlockEntity
 import dev.tobynguyen27.sense.sync.annotation.Permanent
+import dev.tobynguyen27.sense.sync.blockentity.AutoPersistBlockEntity
 import dev.tobynguyen27.sense.sync.container.ManagedFieldContainer
 import dev.tobynguyen27.testmod.registry.BlockRegistry
 import net.minecraft.core.BlockPos
+import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 
 class AlphaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
-    SenseBlockEntity(BlockRegistry.ALPHA_BLOCK_ENTITY, blockPos, blockState) {
+    BlockEntity(BlockRegistry.ALPHA_BLOCK_ENTITY, blockPos, blockState), AutoPersistBlockEntity {
 
-    val container = ManagedFieldContainer(this)
+    val container by lazy { ManagedFieldContainer(this) }
 
     @Permanent var alpha: Byte = 2
 
@@ -39,6 +40,10 @@ class AlphaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         println(zeta)
         println(eta)
         println(theta)
+    }
+
+    override fun getSelf(): BlockEntity {
+        return this
     }
 
     override fun getFieldContainer(): ManagedFieldContainer = container
