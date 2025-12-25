@@ -1,6 +1,6 @@
 package dev.tobynguyen27.testmod.block.alpha
 
-import dev.tobynguyen27.sense.sync.annotation.Permanent
+import dev.tobynguyen27.sense.sync.annotation.Persisted
 import dev.tobynguyen27.sense.sync.blockentity.AutoPersistBlockEntity
 import dev.tobynguyen27.sense.sync.container.ManagedFieldContainer
 import dev.tobynguyen27.testmod.registry.BlockRegistry
@@ -13,21 +13,21 @@ class AlphaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     val container by lazy { ManagedFieldContainer(this) }
 
-    @Permanent var alpha: Byte = 2
+    @Persisted var alpha: Byte = 2
 
-    @Permanent var beta: Short = 10
+    @Persisted var beta: Short = 10
 
-    @Permanent var gamma = 0
+    @Persisted var gamma = 0
 
-    @Permanent var delta = 0L
+    @Persisted var delta = 0L
 
-    @Permanent var epsilon = 0F
+    @Persisted var epsilon = 0F
 
-    @Permanent var zeta = 0.0
+    @Persisted var zeta = 0.0
 
-    @Permanent var eta = true
+    @Persisted var eta = true
 
-    @Permanent var theta = "Theta"
+    @Persisted var theta = "Theta"
 
     override fun setChanged() {
         super.setChanged()

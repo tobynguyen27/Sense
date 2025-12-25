@@ -1,6 +1,6 @@
 package dev.tobynguyen27.testmod.block.beta
 
-import dev.tobynguyen27.sense.sync.annotation.Permanent
+import dev.tobynguyen27.sense.sync.annotation.Persisted
 import dev.tobynguyen27.sense.sync.annotation.Synced
 import dev.tobynguyen27.sense.sync.blockentity.AutoSyncBlockEntity
 import dev.tobynguyen27.sense.sync.container.ManagedFieldContainer
@@ -18,7 +18,7 @@ class BetaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     val container = ManagedFieldContainer(this)
 
-    @Synced @Permanent var alpha = 0
+    @Synced @Persisted var alpha = 0
 
     override fun setChanged() {
         super.setChanged()
@@ -32,7 +32,7 @@ class BetaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun getUpdateTag(): CompoundTag {
         val tag = CompoundTag()
-        getFieldContainer().writeSyncFields(tag)
+        getFieldContainer().saveSyncFields(tag)
         return tag
     }
 

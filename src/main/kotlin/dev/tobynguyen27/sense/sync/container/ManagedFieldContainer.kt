@@ -1,7 +1,7 @@
 package dev.tobynguyen27.sense.sync.container
 
 import dev.tobynguyen27.sense.sync.accessor.Accessor
-import dev.tobynguyen27.sense.sync.annotation.Permanent
+import dev.tobynguyen27.sense.sync.annotation.Persisted
 import dev.tobynguyen27.sense.sync.annotation.Synced
 import dev.tobynguyen27.sense.sync.blockentity.AutoManagedBlockEntity
 import dev.tobynguyen27.sense.sync.registry.AccessorProviderRegistries
@@ -20,17 +20,17 @@ class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
                         val provider =
                             AccessorProviderRegistries.get(field) ?: return@mapNotNull null
 
-                        val permanentAnnotation = field.getAnnotation(Permanent::class.java)
+                        val persistedAnnotation = field.getAnnotation(Persisted::class.java)
                         val syncedAnnotation = field.getAnnotation(Synced::class.java)
 
-                        val hasPermanent = permanentAnnotation != null
+                        val hasPermanent = persistedAnnotation != null
                         val hasSynced = syncedAnnotation != null
 
                         if (!hasPermanent && !hasSynced) return@mapNotNull null
 
                         val name =
-                            if (hasPermanent && permanentAnnotation.key.isNotEmpty())
-                                permanentAnnotation.key
+                            if (hasPermanent && persistedAnnotation.key.isNotEmpty())
+                                persistedAnnotation.key
                             else field.name
 
                         ManagedField(name, field, provider, hasPermanent, hasSynced)
@@ -40,7 +40,7 @@ class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
         }
     }
 
-    val permanentFields = mutableListOf<Accessor>()
+    val persistedFields = mutableListOf<Accessor>()
     val syncedFields = mutableListOf<Accessor>()
 
     init {
@@ -48,7 +48,7 @@ class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
 
         fields.forEach { field ->
             val accessor = field.provider.create(field.name, field.field, owner)
-            if (field.isPersisted) permanentFields.add(accessor)
+            if (field.isPersisted) persistedFields.add(accessor)
             if (field.isSynced) syncedFields.add(accessor)
         }
     }
@@ -74,19 +74,19 @@ class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
         }
     }
 
-    fun savePermanentFields(tag: CompoundTag) {
-        permanentFields.forEach { it.saveNbt(tag) }
+    fun savePersistedFields(tag: CompoundTag) {
+        persistedFields.forEach { it.saveNbt(tag) }
     }
 
-    fun loadPermanentFields(tag: CompoundTag) {
-        permanentFields.forEach { it.loadNbt(tag) }
+    fun loadPersistedFields(tag: CompoundTag) {
+        persistedFields.forEach { it.loadNbt(tag) }
     }
 
-    fun writeSyncFields(tag: CompoundTag) {
+    fun saveSyncFields(tag: CompoundTag) {
         syncedFields.forEach { it.saveNbt(tag) }
     }
 
-    fun readSyncedFields(tag: CompoundTag) {
+    fun loadSyncFields(tag: CompoundTag) {
         syncedFields.forEach { it.loadNbt(tag) }
     }
 }
