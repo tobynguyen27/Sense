@@ -24,5 +24,4 @@ public abstract class BlockEntityMixin {
             blockEntity.getFieldContainer().loadPersistedFields(tag);
         }
     }
-
 }
