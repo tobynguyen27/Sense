@@ -23,17 +23,17 @@ class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
                         val persistedAnnotation = field.getAnnotation(Persisted::class.java)
                         val syncedAnnotation = field.getAnnotation(Synced::class.java)
 
-                        val hasPermanent = persistedAnnotation != null
+                        val hasPersisted = persistedAnnotation != null
                         val hasSynced = syncedAnnotation != null
 
-                        if (!hasPermanent && !hasSynced) return@mapNotNull null
+                        if (!hasPersisted && !hasSynced) return@mapNotNull null
 
                         val name =
-                            if (hasPermanent && persistedAnnotation.key.isNotEmpty())
+                            if (hasPersisted && persistedAnnotation.key.isNotEmpty())
                                 persistedAnnotation.key
                             else field.name
 
-                        ManagedField(name, field, provider, hasPermanent, hasSynced)
+                        ManagedField(name, field, provider, hasPersisted, hasSynced)
                     }
                     .toList()
             }
