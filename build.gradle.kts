@@ -6,7 +6,7 @@ plugins {
     id("idea")
 }
 
-val runNumber =
+val runNumber: String =
     if (System.getenv("GITHUB_RUN_NUMBER") == null) "9999" else System.getenv("GITHUB_RUN_NUMBER")
 val isRelease = project.hasProperty("release")
 
