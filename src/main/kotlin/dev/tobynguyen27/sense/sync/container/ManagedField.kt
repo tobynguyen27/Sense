@@ -7,5 +7,6 @@ data class ManagedField(
     val name: String,
     val field: Field,
     val provider: AccessorProvider,
-    val types: ManagedFieldFlags,
+    val isPersisted: Boolean,
+    val isSynced: Boolean,
 ) {}

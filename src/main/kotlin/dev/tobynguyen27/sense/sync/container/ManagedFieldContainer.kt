@@ -1,6 +1,5 @@
 package dev.tobynguyen27.sense.sync.container
 
-import dev.tobynguyen27.sense.Sense
 import dev.tobynguyen27.sense.sync.accessor.Accessor
 import dev.tobynguyen27.sense.sync.annotation.Permanent
 import dev.tobynguyen27.sense.sync.annotation.Synced
@@ -18,13 +17,7 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
                     .onEach { field -> field.isAccessible = true }
                     .mapNotNull { field ->
                         val provider =
-                            AccessorProviderRegistries.get(field)
-                                ?: run {
-                                    Sense.LOGGER.error(
-                                        "There is no provider for field ${field.name} with type ${field.type.simpleName}"
-                                    )
-                                    return@mapNotNull null
-                                }
+                            AccessorProviderRegistries.get(field) ?: return@mapNotNull null
 
                         val permanentAnnotation = field.getAnnotation(Permanent::class.java)
                         val syncedAnnotation = field.getAnnotation(Synced::class.java)
@@ -43,11 +36,8 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
                             name,
                             field,
                             provider,
-                            ManagedFieldFlags.Builder.apply {
-                                    if (hasPermanent) with(ManagedFieldType.PERMANENT)
-                                    if (hasSynced) with(ManagedFieldType.SYNCED)
-                                }
-                                .build(),
+                            hasPermanent,
+                            hasSynced
                         )
                     }
                     .toList()
@@ -63,8 +53,8 @@ class ManagedFieldContainer(val owner: ManagedFieldAware) {
 
         fields.forEach { field ->
             val accessor = field.provider.create(field.name, field.field, owner)
-            if (field.types.has(ManagedFieldType.PERMANENT)) permanentFields.add(accessor)
-            if (field.types.has(ManagedFieldType.SYNCED)) syncedFields.add(accessor)
+            if (field.isPersisted) permanentFields.add(accessor)
+            if (field.isSynced) syncedFields.add(accessor)
         }
     }
 
