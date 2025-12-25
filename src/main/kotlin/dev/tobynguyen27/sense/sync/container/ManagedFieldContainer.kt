@@ -56,22 +56,17 @@ class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
     fun collectDirtyFields(): CompoundTag? {
         // We only return CompoundTag when we have at least 1 value changed. Minecraft doesn't
         // handle empty packet
+        val dirtyFields = syncedFields.filter { it.isChanged() }
+        if (dirtyFields.isEmpty()) return null
+
         val tag = CompoundTag()
-        var isDirty = false
 
-        syncedFields.forEach {
-            if (it.isChanged()) {
-                it.saveNbt(tag)
-                it.updateLastValue()
-                isDirty = true
-            }
+        dirtyFields.forEach {
+            it.saveNbt(tag)
+            it.updateLastValue()
         }
 
-        return if (isDirty) {
-            tag
-        } else {
-            null
-        }
+        return tag
     }
 
     fun savePersistedFields(tag: CompoundTag) {

@@ -12,7 +12,7 @@ object BetaBlockLogical {
         blockState: BlockState,
         blockEntity: BetaBlockEntity,
     ) {
-        if (level.gameTime % 120 != 0L) return
+        if (level.gameTime % 40 != 0L) return
 
         // TestMod.LOGGER.info(blockEntity.alpha.toString())
         blockEntity.alpha++
@@ -27,7 +27,7 @@ object BetaBlockLogical {
         blockState: BlockState,
         blockEntity: BetaBlockEntity,
     ) {
-        if (level.gameTime % 120 != 0L) return
+        // if (level.gameTime % 40 != 0L) return
 
         // TestMod.LOGGER.info(blockEntity.alpha.toString())
     }

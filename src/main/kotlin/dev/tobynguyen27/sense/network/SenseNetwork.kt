@@ -1,6 +1,6 @@
 package dev.tobynguyen27.sense.network
 
-import dev.tobynguyen27.sense.sync.blockentity.AutoManagedBlockEntity
+import dev.tobynguyen27.sense.sync.blockentity.AutoSyncBlockEntity
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup
@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.entity.BlockEntity
 object SenseNetwork {
 
     fun sendSyncPacket(blockEntity: BlockEntity, tag: CompoundTag) {
-
         val buf = PacketByteBufs.create()
         buf.writeBlockPos(blockEntity.blockPos)
         buf.writeNbt(tag)
@@ -31,7 +30,7 @@ object SenseNetwork {
                 val level = minecraft.level ?: return@execute
                 val blockEntity = level.getBlockEntity(blockPos)
 
-                if (blockEntity is AutoManagedBlockEntity) {
+                if (blockEntity is AutoSyncBlockEntity) {
                     blockEntity.getFieldContainer().loadSyncFields(tag)
                 }
             }
