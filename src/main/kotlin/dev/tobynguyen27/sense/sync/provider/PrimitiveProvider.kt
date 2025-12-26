@@ -2,6 +2,7 @@ package dev.tobynguyen27.sense.sync.provider
 
 import dev.tobynguyen27.sense.sync.accessor.Accessor
 import dev.tobynguyen27.sense.sync.accessor.PrimitiveAccessor
+import java.lang.invoke.MethodHandles
 import java.lang.reflect.Field
 import net.minecraft.nbt.CompoundTag
 
@@ -31,17 +32,21 @@ object PrimitiveProvider : AccessorProvider {
             String::class.java to { tag, name, value -> tag.putString(name, value as String) },
         )
 
+    private val LOOKUP = MethodHandles.lookup()
+
     override fun isSupported(field: Field): Boolean {
         return READERS.contains(field.type)
     }
 
     override fun create(name: String, field: Field, owner: Any): Accessor {
         val type = field.type
+        val getter = LOOKUP.unreflectGetter(field).bindTo(owner)
+        val setter = LOOKUP.unreflectSetter(field).bindTo(owner)
 
         return PrimitiveAccessor(
             name,
-            { field.get(owner) },
-            { field.set(owner, it) },
+            { getter.invoke() },
+            { setter.invoke(it) },
             READERS[type]!!,
             WRITERS[type]!!,
         )
