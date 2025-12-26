@@ -2,6 +2,7 @@ package dev.tobynguyen27.testmod.block.alpha
 
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.core.BlockPos
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.player.Player
@@ -36,6 +37,10 @@ class AlphaBlock : BaseEntityBlock(FabricBlockSettings.of(Material.METAL)) {
                 eta = !eta
                 theta += theta
                 testPos = testPos.offset(1.0, 1.0, 1.0)
+
+                testRL =
+                    if (testRL == null) ResourceLocation("init", "init")
+                    else ResourceLocation("init", alpha.toString())
 
                 setChanged()
             }

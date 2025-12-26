@@ -9,7 +9,7 @@ import net.minecraft.nbt.CompoundTag
 object PrimitiveProvider : AccessorProvider {
 
     private val READERS =
-        mapOf<Class<*>, (CompoundTag, String) -> Any>(
+        mapOf<Class<*>, (CompoundTag, String) -> Any?>(
             Byte::class.java to { tag, name -> tag.getByte(name) },
             Short::class.java to { tag, name -> tag.getShort(name) },
             Int::class.java to { tag, name -> tag.getInt(name) },
@@ -21,15 +21,39 @@ object PrimitiveProvider : AccessorProvider {
         )
 
     private val WRITERS =
-        mapOf<Class<*>, (CompoundTag, String, Any) -> Unit>(
-            Byte::class.java to { tag, name, value -> tag.putByte(name, value as Byte) },
-            Short::class.java to { tag, name, value -> tag.putShort(name, value as Short) },
-            Int::class.java to { tag, name, value -> tag.putInt(name, value as Int) },
-            Long::class.java to { tag, name, value -> tag.putLong(name, value as Long) },
-            Float::class.java to { tag, name, value -> tag.putFloat(name, value as Float) },
-            Double::class.java to { tag, name, value -> tag.putDouble(name, value as Double) },
-            Boolean::class.java to { tag, name, value -> tag.putBoolean(name, value as Boolean) },
-            String::class.java to { tag, name, value -> tag.putString(name, value as String) },
+        mapOf<Class<*>, (CompoundTag, String, Any?) -> Unit>(
+            Byte::class.java to
+                { tag, name, value ->
+                    if (value != null) tag.putByte(name, value as Byte)
+                },
+            Short::class.java to
+                { tag, name, value ->
+                    if (value != null) tag.putShort(name, value as Short)
+                },
+            Int::class.java to
+                { tag, name, value ->
+                    if (value != null) tag.putInt(name, value as Int)
+                },
+            Long::class.java to
+                { tag, name, value ->
+                    if (value != null) tag.putLong(name, value as Long)
+                },
+            Float::class.java to
+                { tag, name, value ->
+                    if (value != null) tag.putFloat(name, value as Float)
+                },
+            Double::class.java to
+                { tag, name, value ->
+                    if (value != null) tag.putDouble(name, value as Double)
+                },
+            Boolean::class.java to
+                { tag, name, value ->
+                    if (value != null) tag.putBoolean(name, value as Boolean)
+                },
+            String::class.java to
+                { tag, name, value ->
+                    if (value != null) tag.putString(name, value as String)
+                },
         )
 
     private val LOOKUP = MethodHandles.lookup()

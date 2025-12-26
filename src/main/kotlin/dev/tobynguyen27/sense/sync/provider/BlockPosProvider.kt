@@ -22,10 +22,10 @@ object BlockPosProvider : AccessorProvider {
 
         return BlockPosAccessor(
             name,
-            { getter.invoke() as BlockPos },
+            { getter.invoke() as? BlockPos },
             { setter.invoke(it) },
             { tag, name -> NbtUtils.readBlockPos(tag.get(name) as CompoundTag) },
-            { tag, name, pos -> tag.put(name, NbtUtils.writeBlockPos(pos)) },
+            { tag, name, pos -> if (pos != null) tag.put(name, NbtUtils.writeBlockPos(pos)) },
         )
     }
 }

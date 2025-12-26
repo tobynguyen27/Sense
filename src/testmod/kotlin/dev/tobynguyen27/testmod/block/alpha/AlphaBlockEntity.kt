@@ -5,6 +5,7 @@ import dev.tobynguyen27.sense.sync.blockentity.AutoPersistBlockEntity
 import dev.tobynguyen27.sense.sync.container.ManagedFieldContainer
 import dev.tobynguyen27.testmod.registry.BlockRegistry
 import net.minecraft.core.BlockPos
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 
@@ -31,6 +32,8 @@ class AlphaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     @Persisted var testPos: BlockPos = BlockPos.ZERO
 
+    @Persisted var testRL: ResourceLocation? = null
+
     override fun setChanged() {
         super.setChanged()
 
@@ -43,6 +46,7 @@ class AlphaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         println(eta)
         println(theta)
         println(testPos.toString())
+        println(testRL.toString())
     }
 
     override fun getSelf(): BlockEntity {
