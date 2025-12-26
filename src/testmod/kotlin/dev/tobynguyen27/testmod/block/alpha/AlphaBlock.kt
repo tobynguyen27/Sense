@@ -35,6 +35,7 @@ class AlphaBlock : BaseEntityBlock(FabricBlockSettings.of(Material.METAL)) {
                 zeta++
                 eta = !eta
                 theta += theta
+                testPos = testPos.offset(1.0, 1.0, 1.0)
 
                 setChanged()
             }

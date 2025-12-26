@@ -29,6 +29,8 @@ class AlphaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     @Persisted var theta = "Theta"
 
+    @Persisted var testPos: BlockPos = BlockPos.ZERO
+
     override fun setChanged() {
         super.setChanged()
 
@@ -40,6 +42,7 @@ class AlphaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         println(zeta)
         println(eta)
         println(theta)
+        println(testPos.toString())
     }
 
     override fun getSelf(): BlockEntity {

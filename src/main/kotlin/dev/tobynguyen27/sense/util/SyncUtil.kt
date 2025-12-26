@@ -1,11 +1,13 @@
 package dev.tobynguyen27.sense.util
 
+import net.minecraft.core.BlockPos
 import java.util.Objects
 import net.minecraft.world.item.ItemStack
 
 object SyncUtil {
     fun copy(value: Any?): Any? {
         if (value is ItemStack) return value.copy()
+        if(value is BlockPos) return value.immutable()
 
         return value
     }
