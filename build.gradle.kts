@@ -1,9 +1,9 @@
 plugins {
-    id("net.fabricmc.fabric-loom-remap") version "1.14-SNAPSHOT"
-    kotlin("jvm") version "2.3.0"
-    id("com.diffplug.spotless") version "8.1.0"
-    id("maven-publish")
-    id("idea")
+    alias(libs.plugins.loom)
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.spotless)
+    idea
+    `maven-publish`
 }
 
 val runNumber: String =
@@ -59,12 +59,7 @@ loom {
 }
 
 dependencies {
-    val fabric_version: String by project
-    val fabric_kotlin_version: String by project
-
-    val modmenu_version: String by project
-
-    minecraft("com.mojang:minecraft:$minecraft_version")
+    minecraft(libs.minecraft)
     mappings(
         loom.layered {
             officialMojangMappings()
@@ -72,15 +67,13 @@ dependencies {
         }
     )
 
-    testImplementation("net.fabricmc:fabric-loader-junit:$loader_version")
+    modImplementation(libs.fabric.loader)
+    modImplementation(libs.fabric.api)
+    modImplementation(libs.fabric.kotlin)
 
-    modImplementation("net.fabricmc:fabric-loader:$loader_version")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:$fabric_version")
-    modImplementation("net.fabricmc:fabric-language-kotlin:$fabric_kotlin_version")
+    testImplementation(libs.fabric.junit)
 
-    modImplementation("com.terraformersmc:modmenu:$modmenu_version") {
-        exclude(group = "net.fabricmc")
-    }
+    modLocalRuntime(libs.modmenu) { exclude(group = "net.fabricmc") }
 
     "testmodImplementation"(sourceSets.main.get().output)
 }
