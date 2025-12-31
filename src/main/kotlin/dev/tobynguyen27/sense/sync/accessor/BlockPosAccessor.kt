@@ -31,6 +31,6 @@ class BlockPosAccessor(
     }
 
     override fun loadNbt(tag: CompoundTag) {
-        if (tag.contains(name)) setter(reader(tag, name)) else setter(null)
+        if (tag.contains(name)) setter(reader(tag, name))
     }
 }

@@ -2,82 +2,74 @@ package dev.tobynguyen27.sense.sync.provider
 
 import dev.tobynguyen27.sense.sync.accessor.Accessor
 import dev.tobynguyen27.sense.sync.accessor.PrimitiveAccessor
-import java.lang.invoke.MethodHandles
-import java.lang.reflect.Field
+import dev.tobynguyen27.sense.sync.blockentity.AutoManagedBlockEntity
+import kotlin.collections.get
+import kotlin.reflect.KClass
+import kotlin.reflect.KMutableProperty
 import net.minecraft.nbt.CompoundTag
 
 object PrimitiveProvider : AccessorProvider {
 
     private val READERS =
-        mapOf<Class<*>, (CompoundTag, String) -> Any?>(
-            Byte::class.java to { tag, name -> tag.getByte(name) },
-            Byte::class.javaPrimitiveType!! to { tag, name -> tag.getByte(name) },
-            Short::class.java to { tag, name -> tag.getShort(name) },
-            Short::class.javaPrimitiveType!! to { tag, name -> tag.getShort(name) },
-            Int::class.java to { tag, name -> tag.getInt(name) },
-            Int::class.javaPrimitiveType!! to { tag, name -> tag.getInt(name) },
-            Long::class.java to { tag, name -> tag.getLong(name) },
-            Long::class.javaPrimitiveType!! to { tag, name -> tag.getLong(name) },
-            Float::class.java to { tag, name -> tag.getFloat(name) },
-            Float::class.javaPrimitiveType!! to { tag, name -> tag.getFloat(name) },
-            Double::class.java to { tag, name -> tag.getDouble(name) },
-            Double::class.javaPrimitiveType!! to { tag, name -> tag.getDouble(name) },
-            Boolean::class.java to { tag, name -> tag.getBoolean(name) },
-            Boolean::class.javaPrimitiveType!! to { tag, name -> tag.getBoolean(name) },
-            String::class.java to { tag, name -> tag.getString(name) },
+        mapOf<KClass<*>, (CompoundTag, String) -> Any?>(
+            Byte::class to { tag, name -> tag.getByte(name) },
+            Short::class to { tag, name -> tag.getShort(name) },
+            Int::class to { tag, name -> tag.getInt(name) },
+            Long::class to { tag, name -> tag.getLong(name) },
+            Float::class to { tag, name -> tag.getFloat(name) },
+            Double::class to { tag, name -> tag.getDouble(name) },
+            Boolean::class to { tag, name -> tag.getBoolean(name) },
+            String::class to { tag, name -> tag.getString(name) },
         )
 
     private val WRITERS =
-        mapOf<Class<*>, (CompoundTag, String, Any?) -> Unit>(
-            Byte::class.java to
+        mapOf<KClass<*>, (CompoundTag, String, Any?) -> Unit>(
+            Byte::class to
                 { tag, name, value ->
                     if (value != null) tag.putByte(name, value as Byte)
                 },
-            Short::class.java to
+            Short::class to
                 { tag, name, value ->
                     if (value != null) tag.putShort(name, value as Short)
                 },
-            Int::class.java to
-                { tag, name, value ->
-                    if (value != null) tag.putInt(name, value as Int)
-                },
-            Long::class.java to
+            Int::class to { tag, name, value -> if (value != null) tag.putInt(name, value as Int) },
+            Long::class to
                 { tag, name, value ->
                     if (value != null) tag.putLong(name, value as Long)
                 },
-            Float::class.java to
+            Float::class to
                 { tag, name, value ->
                     if (value != null) tag.putFloat(name, value as Float)
                 },
-            Double::class.java to
+            Double::class to
                 { tag, name, value ->
                     if (value != null) tag.putDouble(name, value as Double)
                 },
-            Boolean::class.java to
+            Boolean::class to
                 { tag, name, value ->
                     if (value != null) tag.putBoolean(name, value as Boolean)
                 },
-            String::class.java to
+            String::class to
                 { tag, name, value ->
                     if (value != null) tag.putString(name, value as String)
                 },
         )
 
-    private val LOOKUP = MethodHandles.lookup()
-
-    override fun isSupported(field: Field): Boolean {
-        return READERS.contains(field.type)
+    override fun isSupported(field: KMutableProperty<*>): Boolean {
+        return READERS.contains(field.returnType.classifier)
     }
 
-    override fun create(name: String, field: Field, owner: Any): Accessor {
-        val type = field.type
-        val getter = LOOKUP.unreflectGetter(field).bindTo(owner)
-        val setter = LOOKUP.unreflectSetter(field).bindTo(owner)
+    override fun create(
+        name: String,
+        field: KMutableProperty<*>,
+        owner: AutoManagedBlockEntity,
+    ): Accessor {
+        val type = field.returnType.classifier
 
         return PrimitiveAccessor(
             name,
-            { getter.invoke() },
-            { setter.invoke(it) },
+            { field.getter.call(owner) },
+            { field.setter.call(owner, it) },
             READERS[type]!!,
             WRITERS[type]!!,
         )

@@ -6,22 +6,26 @@ import dev.tobynguyen27.sense.sync.annotation.Synced
 import dev.tobynguyen27.sense.sync.blockentity.AutoManagedBlockEntity
 import dev.tobynguyen27.sense.sync.registry.AccessorProviderRegistries
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.reflect.KClass
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.findAnnotation
 import net.minecraft.nbt.CompoundTag
 
 class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
     companion object {
-        val CONTAINER_CACHE = ConcurrentHashMap<Class<*>, List<ManagedField>>()
+        val CONTAINER_CACHE = ConcurrentHashMap<KClass<*>, List<ManagedField>>()
 
-        fun getCachedFields(clazz: Class<*>): List<ManagedField> {
+        fun getCachedFields(clazz: KClass<*>): List<ManagedField> {
             return CONTAINER_CACHE.computeIfAbsent(clazz) {
-                it.declaredFields
-                    .onEach { field -> field.isAccessible = true }
+                it.declaredMemberProperties
+                    .filterIsInstance<KMutableProperty<*>>()
                     .mapNotNull { field ->
                         val provider =
                             AccessorProviderRegistries.get(field) ?: return@mapNotNull null
 
-                        val persistedAnnotation = field.getAnnotation(Persisted::class.java)
-                        val syncedAnnotation = field.getAnnotation(Synced::class.java)
+                        val persistedAnnotation = field.findAnnotation<Persisted>()
+                        val syncedAnnotation = field.findAnnotation<Synced>()
 
                         val hasPersisted = persistedAnnotation != null
                         val hasSynced = syncedAnnotation != null
@@ -44,7 +48,7 @@ class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
     val syncedFields = mutableListOf<Accessor>()
 
     init {
-        val fields = getCachedFields(owner.javaClass)
+        val fields = getCachedFields(owner::class)
 
         fields.forEach { field ->
             val accessor = field.provider.create(field.name, field.field, owner)

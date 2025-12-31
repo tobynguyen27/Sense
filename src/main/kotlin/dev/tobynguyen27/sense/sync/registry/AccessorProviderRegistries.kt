@@ -4,8 +4,8 @@ import dev.tobynguyen27.sense.sync.provider.AccessorProvider
 import dev.tobynguyen27.sense.sync.provider.BlockPosProvider
 import dev.tobynguyen27.sense.sync.provider.PrimitiveProvider
 import dev.tobynguyen27.sense.sync.provider.ResourceLocationProvider
-import java.lang.reflect.Field
 import java.util.concurrent.CopyOnWriteArrayList
+import kotlin.reflect.KMutableProperty
 
 object AccessorProviderRegistries {
 
@@ -17,7 +17,7 @@ object AccessorProviderRegistries {
         register(ResourceLocationProvider)
     }
 
-    fun get(field: Field): AccessorProvider? {
+    fun get(field: KMutableProperty<*>): AccessorProvider? {
         return REGISTRIES.firstOrNull { it.isSupported(field) }
     }
 

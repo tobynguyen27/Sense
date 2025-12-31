@@ -1,11 +1,12 @@
 package dev.tobynguyen27.sense.sync.provider
 
 import dev.tobynguyen27.sense.sync.accessor.Accessor
-import java.lang.reflect.Field
+import dev.tobynguyen27.sense.sync.blockentity.AutoManagedBlockEntity
+import kotlin.reflect.KMutableProperty
 
 interface AccessorProvider {
 
-    fun isSupported(field: Field): Boolean
+    fun isSupported(field: KMutableProperty<*>): Boolean
 
-    fun create(name: String, field: Field, owner: Any): Accessor
+    fun create(name: String, field: KMutableProperty<*>, owner: AutoManagedBlockEntity): Accessor
 }

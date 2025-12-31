@@ -15,4 +15,5 @@ import net.minecraft.world.level.block.entity.BlockEntity
  * @param key The NBT key to use for persistence. If empty (default), the field's name is used as
  *   the key.
  */
-@Target(AnnotationTarget.FIELD) annotation class Persisted(val key: String = "")
+@Target(AnnotationTarget.FIELD, AnnotationTarget.PROPERTY)
+annotation class Persisted(val key: String = "")

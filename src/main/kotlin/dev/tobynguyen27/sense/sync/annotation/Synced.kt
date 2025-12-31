@@ -18,4 +18,4 @@ import net.minecraft.world.level.block.entity.BlockEntity
  *
  * @see AutoPersistBlockEntity
  */
-@Target(AnnotationTarget.FIELD) annotation class Synced()
+@Target(AnnotationTarget.FIELD, AnnotationTarget.PROPERTY) annotation class Synced()
