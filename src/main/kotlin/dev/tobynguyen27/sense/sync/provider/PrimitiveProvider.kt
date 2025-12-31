@@ -11,12 +11,19 @@ object PrimitiveProvider : AccessorProvider {
     private val READERS =
         mapOf<Class<*>, (CompoundTag, String) -> Any?>(
             Byte::class.java to { tag, name -> tag.getByte(name) },
+            Byte::class.javaPrimitiveType!! to { tag, name -> tag.getByte(name) },
             Short::class.java to { tag, name -> tag.getShort(name) },
+            Short::class.javaPrimitiveType!! to { tag, name -> tag.getShort(name) },
             Int::class.java to { tag, name -> tag.getInt(name) },
+            Int::class.javaPrimitiveType!! to { tag, name -> tag.getInt(name) },
             Long::class.java to { tag, name -> tag.getLong(name) },
+            Long::class.javaPrimitiveType!! to { tag, name -> tag.getLong(name) },
             Float::class.java to { tag, name -> tag.getFloat(name) },
+            Float::class.javaPrimitiveType!! to { tag, name -> tag.getFloat(name) },
             Double::class.java to { tag, name -> tag.getDouble(name) },
+            Double::class.javaPrimitiveType!! to { tag, name -> tag.getDouble(name) },
             Boolean::class.java to { tag, name -> tag.getBoolean(name) },
+            Boolean::class.javaPrimitiveType!! to { tag, name -> tag.getBoolean(name) },
             String::class.java to { tag, name -> tag.getString(name) },
         )
 
