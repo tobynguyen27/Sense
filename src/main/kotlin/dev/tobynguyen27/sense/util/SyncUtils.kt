@@ -4,12 +4,11 @@ import java.util.Objects
 import net.minecraft.core.BlockPos
 import net.minecraft.world.item.ItemStack
 
-object SyncUtil {
-    fun copy(value: Any?): Any? {
-        if (value is ItemStack) return value.copy()
-        if (value is BlockPos) return value.immutable()
-
-        return value
+object SyncUtils {
+    fun copy(value: Any?): Any? = when(value) {
+        is ItemStack -> value.copy()
+        is BlockPos -> value.immutable()
+        else -> value
     }
 
     fun isChanged(old: Any?, new: Any?): Boolean {

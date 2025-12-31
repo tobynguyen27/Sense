@@ -1,6 +1,6 @@
 package dev.tobynguyen27.sense.sync.accessor
 
-import dev.tobynguyen27.sense.util.SyncUtil
+import dev.tobynguyen27.sense.util.SyncUtils
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 
@@ -12,14 +12,14 @@ class ResourceLocationAccessor(
     val writer: (CompoundTag, String, ResourceLocation?) -> Unit,
 ) : Accessor {
 
-    private var lastValue = SyncUtil.copy(getter())
+    private var lastValue = SyncUtils.copy(getter())
 
     override fun isChanged(): Boolean {
-        return SyncUtil.isChanged(lastValue, getter())
+        return SyncUtils.isChanged(lastValue, getter())
     }
 
     override fun updateLastValue() {
-        lastValue = SyncUtil.copy(getter())
+        lastValue = SyncUtils.copy(getter())
     }
 
     override fun saveNbt(tag: CompoundTag) {
