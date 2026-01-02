@@ -14,14 +14,14 @@ public abstract class BlockEntityMixin {
     @Inject(method = "saveAdditional", at = @At(value = "RETURN"))
     private void injectSaveAdditional(CompoundTag tag, CallbackInfo ci) {
         if (this instanceof AutoPersistBlockEntity blockEntity) {
-            blockEntity.getFieldContainer().savePersistedFields(tag);
+            blockEntity.savePersistedFields(tag);
         }
     }
 
     @Inject(method = "load", at = @At(value = "RETURN"))
     private void injectLoad(CompoundTag tag, CallbackInfo ci) {
         if (this instanceof AutoPersistBlockEntity blockEntity) {
-            blockEntity.getFieldContainer().loadPersistedFields(tag);
+            blockEntity.loadPersistedFields(tag);
         }
     }
 }

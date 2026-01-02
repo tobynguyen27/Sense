@@ -73,14 +73,6 @@ class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
         return tag
     }
 
-    fun savePersistedFields(tag: CompoundTag) {
-        persistedFields.forEach { it.saveNbt(tag) }
-    }
-
-    fun loadPersistedFields(tag: CompoundTag) {
-        persistedFields.forEach { it.loadNbt(tag) }
-    }
-
     fun saveSyncFields(tag: CompoundTag) {
         syncedFields.forEach { it.saveNbt(tag) }
     }
