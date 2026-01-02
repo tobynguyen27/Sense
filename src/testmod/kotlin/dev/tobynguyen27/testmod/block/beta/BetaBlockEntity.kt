@@ -31,12 +31,6 @@ class BetaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         return ClientboundBlockEntityDataPacket.create(this)
     }
 
-    override fun getUpdateTag(): CompoundTag {
-        val tag = CompoundTag()
-        fieldContainer.saveSyncFields(tag)
-        return tag
-    }
-
     override val self: BlockEntity = this
     override val fieldContainer: ManagedFieldContainer by lazy { ManagedFieldContainer(this) }
 }

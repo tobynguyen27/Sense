@@ -46,6 +46,7 @@ class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
 
     val persistedFields = mutableListOf<Accessor>()
     val syncedFields = mutableListOf<Accessor>()
+    val nonPersistedSyncedFields = mutableListOf<Accessor>()
 
     init {
         val fields = getCachedFields(owner::class)
@@ -54,6 +55,7 @@ class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
             val accessor = field.provider.create(field.name, field.field, owner)
             if (field.isPersisted) persistedFields.add(accessor)
             if (field.isSynced) syncedFields.add(accessor)
+            if(field.isSynced && !field.isPersisted) nonPersistedSyncedFields.add(accessor)
         }
     }
 
@@ -71,13 +73,5 @@ class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
         }
 
         return tag
-    }
-
-    fun saveSyncFields(tag: CompoundTag) {
-        syncedFields.forEach { it.saveNbt(tag) }
-    }
-
-    fun loadSyncFields(tag: CompoundTag) {
-        syncedFields.forEach { it.loadNbt(tag) }
     }
 }
