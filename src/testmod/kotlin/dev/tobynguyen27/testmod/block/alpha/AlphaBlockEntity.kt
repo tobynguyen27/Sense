@@ -12,7 +12,8 @@ import net.minecraft.world.level.block.state.BlockState
 class AlphaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     BlockEntity(BlockRegistry.ALPHA_BLOCK_ENTITY, blockPos, blockState), AutoPersistBlockEntity {
 
-    val container by lazy { ManagedFieldContainer(this) }
+    override val self: BlockEntity = this
+    override val fieldContainer: ManagedFieldContainer by lazy { ManagedFieldContainer(this) }
 
     @Persisted var alpha: Byte = 2
 
@@ -48,10 +49,4 @@ class AlphaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         println(testPos.toString())
         println(testRL.toString())
     }
-
-    override fun getSelf(): BlockEntity {
-        return this
-    }
-
-    override fun getFieldContainer(): ManagedFieldContainer = container
 }

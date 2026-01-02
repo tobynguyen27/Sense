@@ -5,7 +5,6 @@ import net.minecraft.world.level.block.entity.BlockEntity
 
 interface AutoManagedBlockEntity {
 
-    fun getSelf(): BlockEntity
-
-    fun getFieldContainer(): ManagedFieldContainer
+    val self: BlockEntity
+    val fieldContainer: ManagedFieldContainer
 }

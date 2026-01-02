@@ -19,8 +19,6 @@ class BetaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     AutoSyncBlockEntity,
     AutoPersistBlockEntity {
 
-    val container by lazy { ManagedFieldContainer(this) }
-
     @Synced @Persisted var alpha = 0
 
     override fun setChanged() {
@@ -35,13 +33,10 @@ class BetaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
 
     override fun getUpdateTag(): CompoundTag {
         val tag = CompoundTag()
-        getFieldContainer().saveSyncFields(tag)
+        fieldContainer.saveSyncFields(tag)
         return tag
     }
 
-    override fun getSelf(): BlockEntity {
-        return this
-    }
-
-    override fun getFieldContainer(): ManagedFieldContainer = container
+    override val self: BlockEntity = this
+    override val fieldContainer: ManagedFieldContainer by lazy { ManagedFieldContainer(this) }
 }

@@ -4,10 +4,10 @@ import net.minecraft.nbt.CompoundTag
 
 interface AutoPersistBlockEntity : AutoManagedBlockEntity {
     fun loadPersistedFields(tag: CompoundTag) {
-        getFieldContainer().loadPersistedFields(tag)
+        fieldContainer.loadPersistedFields(tag)
     }
 
     fun savePersistedFields(tag: CompoundTag) {
-        getFieldContainer().savePersistedFields(tag)
+        fieldContainer.savePersistedFields(tag)
     }
 }

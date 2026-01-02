@@ -31,7 +31,7 @@ object SenseNetwork {
                 val blockEntity = level.getBlockEntity(blockPos)
 
                 if (blockEntity is AutoSyncBlockEntity) {
-                    blockEntity.getFieldContainer().loadSyncFields(tag)
+                    blockEntity.fieldContainer.loadSyncFields(tag)
                 }
             }
         }

@@ -5,8 +5,8 @@ import dev.tobynguyen27.sense.network.SenseNetwork
 interface AutoSyncBlockEntity : AutoManagedBlockEntity {
 
     fun syncTick() {
-        val tag = getFieldContainer().collectDirtyFields() ?: return
+        val tag = fieldContainer.collectDirtyFields() ?: return
 
-        SenseNetwork.sendSyncPacket(getSelf(), tag)
+        SenseNetwork.sendSyncPacket(self, tag)
     }
 }
