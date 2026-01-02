@@ -3,13 +3,12 @@ package dev.tobynguyen27.sense.sync.accessor
 import dev.tobynguyen27.sense.util.SyncUtils
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtUtils
 
 class BlockPosAccessor(
     val name: String,
     val getter: () -> BlockPos?,
     val setter: (BlockPos?) -> Unit,
-    val reader: (CompoundTag, String) -> BlockPos?,
-    val writer: (CompoundTag, String, BlockPos?) -> Unit,
 ) : Accessor {
 
     private var lastValue = SyncUtils.copy(getter())
@@ -27,10 +26,10 @@ class BlockPosAccessor(
             tag.remove(name)
             return
         }
-        writer(tag, name, getter())
+        tag.put(name, NbtUtils.writeBlockPos(getter()))
     }
 
     override fun loadNbt(tag: CompoundTag) {
-        if (tag.contains(name)) setter(reader(tag, name))
+        if (tag.contains(name)) setter(NbtUtils.readBlockPos(tag.getCompound(name)))
     }
 }

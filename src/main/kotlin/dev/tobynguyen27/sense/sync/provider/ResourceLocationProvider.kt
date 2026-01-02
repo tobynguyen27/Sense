@@ -19,11 +19,7 @@ object ResourceLocationProvider : AccessorProvider {
         return ResourceLocationAccessor(
             name,
             { field.getter.call(owner) as? ResourceLocation },
-            { field.setter.call(owner, it) },
-            { tag, name -> ResourceLocation(tag.getString(name)) },
-            { tag, name, resourceLocation ->
-                if (resourceLocation != null) tag.putString(name, resourceLocation.toString())
-            },
+            { field.setter.call(owner, it) }
         )
     }
 }
