@@ -55,7 +55,7 @@ class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
             val accessor = field.provider.create(field.name, field.field, owner)
             if (field.isPersisted) persistedFields.add(accessor)
             if (field.isSynced) syncedFields.add(accessor)
-            if(field.isSynced && !field.isPersisted) nonPersistedSyncedFields.add(accessor)
+            if (field.isSynced && !field.isPersisted) nonPersistedSyncedFields.add(accessor)
         }
     }
 

@@ -19,7 +19,7 @@ object ResourceLocationProvider : AccessorProvider {
         return ResourceLocationAccessor(
             name,
             { field.getter.call(owner) as? ResourceLocation },
-            { field.setter.call(owner, it) }
+            { field.setter.call(owner, it) },
         )
     }
 }

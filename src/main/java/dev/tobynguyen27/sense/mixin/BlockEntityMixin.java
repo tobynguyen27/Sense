@@ -34,5 +34,4 @@ public abstract class BlockEntityMixin {
             blockEntity.saveNonPersistedSyncFields(tag);
         }
     }
-
 }

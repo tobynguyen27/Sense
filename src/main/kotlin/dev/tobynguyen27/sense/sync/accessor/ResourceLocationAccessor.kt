@@ -2,7 +2,6 @@ package dev.tobynguyen27.sense.sync.accessor
 
 import dev.tobynguyen27.sense.util.SyncUtils
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.NbtUtils
 import net.minecraft.resources.ResourceLocation
 
 class ResourceLocationAccessor(

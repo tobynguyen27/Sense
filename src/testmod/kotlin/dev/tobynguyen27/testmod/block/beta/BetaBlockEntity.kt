@@ -7,7 +7,6 @@ import dev.tobynguyen27.sense.sync.blockentity.AutoSyncBlockEntity
 import dev.tobynguyen27.sense.sync.container.ManagedFieldContainer
 import dev.tobynguyen27.testmod.registry.BlockRegistry
 import net.minecraft.core.BlockPos
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.protocol.Packet
 import net.minecraft.network.protocol.game.ClientGamePacketListener
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket
