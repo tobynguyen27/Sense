@@ -55,7 +55,8 @@ object BlockRegistry {
         Registry.register(
             Registry.BLOCK_ENTITY_TYPE,
             Identifier("gamma_block"),
-            BlockEntityType.Builder.of<GammaBlockEntity>(::GammaBlockEntity, GAMMA_BLOCK).build(null),
+            BlockEntityType.Builder.of<GammaBlockEntity>(::GammaBlockEntity, GAMMA_BLOCK)
+                .build(null),
         )
 
     fun register() {}

@@ -32,7 +32,9 @@ class GammaBlock : BaseEntityBlock(FabricBlockSettings.of(Material.METAL)) {
             TestMod.LOGGER.info(be.energyStorage.amount.toString())
         } else {
             player.displayClientMessage(
-                net.minecraft.network.chat.TextComponent("Current value: ${be.energyStorage.amount}"),
+                net.minecraft.network.chat.TextComponent(
+                    "Current value: ${be.energyStorage.amount}"
+                ),
                 true,
             )
             // TestMod.LOGGER.info(be.alpha.toString())

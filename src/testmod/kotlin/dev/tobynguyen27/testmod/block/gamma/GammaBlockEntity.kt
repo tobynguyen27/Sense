@@ -19,11 +19,14 @@ class GammaBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     AutoSyncBlockEntity,
     AutoPersistBlockEntity {
 
-     @Synced @Persisted var energyStorage = object: SimpleEnergyStorage(100_000, 100_000, 100_000) {
-         override fun onFinalCommit() {
-             setChanged()
-         }
-     }
+    @Synced
+    @Persisted
+    var energyStorage =
+        object : SimpleEnergyStorage(100_000, 100_000, 100_000) {
+            override fun onFinalCommit() {
+                setChanged()
+            }
+        }
 
     override fun getUpdatePacket(): Packet<ClientGamePacketListener> {
         return ClientboundBlockEntityDataPacket.create(this)
