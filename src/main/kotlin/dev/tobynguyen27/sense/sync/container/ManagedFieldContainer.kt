@@ -8,8 +8,8 @@ import dev.tobynguyen27.sense.sync.registry.AccessorProviderRegistries
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty
-import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.memberProperties
 import net.minecraft.nbt.CompoundTag
 
 class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
@@ -18,7 +18,7 @@ class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
 
         fun getCachedFields(clazz: KClass<*>): List<ManagedField> {
             return CONTAINER_CACHE.computeIfAbsent(clazz) {
-                it.declaredMemberProperties
+                it.memberProperties
                     .filterIsInstance<KMutableProperty<*>>()
                     .mapNotNull { field ->
                         val provider =
