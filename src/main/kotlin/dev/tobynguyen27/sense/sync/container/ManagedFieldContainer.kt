@@ -62,9 +62,9 @@ class ManagedFieldContainer(val owner: AutoManagedBlockEntity) {
     fun collectDirtyFields(): CompoundTag? {
         var tag: CompoundTag? = null
 
-        for(accessor in syncedFields) {
-            if(!accessor.isChanged()) continue
-            if(tag == null) tag = CompoundTag()
+        for (accessor in syncedFields) {
+            if (!accessor.isChanged()) continue
+            if (tag == null) tag = CompoundTag()
             accessor.saveNbt(tag)
             accessor.updateLastValue()
         }
