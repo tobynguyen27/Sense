@@ -1,8 +1,13 @@
-Sense
----
+<p align="center">
+    <img src="./src/main/resources/assets/sense/icon.png" width="150">
+</p>
 
-[![Maven repo](https://maven.tobynguyen.dev/api/badge/latest/releases/dev/tobynguyen27/sense?name=Version)](https://maven.tobynguyen.dev)
-[![Build and Publish](https://github.com/tobynguyen27/Sense/actions/workflows/build-publish.yml/badge.svg)](https://github.com/tobynguyen27/Sense/actions/workflows/build-publish.yml)
+<h1 align="center">Sense</h1>
+
+<p align="center">
+    <a href="https://maven.tobynguyen.dev"><img src="https://maven.tobynguyen.dev/api/badge/latest/releases/dev/tobynguyen27/sense?name=Version"></a>
+    <a href="https://github.com/tobynguyen27/Sense/actions/workflows/build-publish.yml"><img src="https://github.com/tobynguyen27/Sense/actions/workflows/build-publish.yml/badge.svg"></a>
+</p>
 
 A mod library designed to simplify mod development. It offers a collection of utilities, enabling developers to create mods more efficiently with cleaner, more concise code.
 
