@@ -101,7 +101,11 @@ tasks.withType<ProcessResources>().configureEach {
 
 tasks.withType<JavaCompile>().configureEach { options.encoding = "UTF-8" }
 
-kotlin { jvmToolchain(17) }
+java {
+    toolchain { languageVersion.set(JavaLanguageVersion.of(17)) }
+
+    withSourcesJar()
+}
 
 tasks.named<Jar>("jar") {
     inputs.property("archivesName", project.base.archivesName)
