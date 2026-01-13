@@ -21,19 +21,21 @@ val mod_license: String by project
 val maven_group: String by project
 
 version = if (isRelease) mod_version else "$mod_version-build.$runNumber"
-
 group = maven_group
-
 base.archivesName = mod_id
 
 repositories {
-    maven { url = uri("https://maven.parchmentmc.org") }
-    maven { url = uri("https://maven.terraformersmc.com/") }
+    val urls = setOf("https://maven.parchmentmc.org", "https://maven.terraformersmc.com")
+
+    urls.forEach {
+        maven { url = uri(it) }
+    }
+
     mavenCentral()
 }
 
 sourceSets {
-    val testmod by creating {
+    register("testmod") {
         val main = sourceSets.getByName<SourceSet>("main")
         compileClasspath += main.compileClasspath
         runtimeClasspath += main.runtimeClasspath
@@ -44,14 +46,14 @@ loom {
     runs {
         val testmod = sourceSets.getByName("testmod")
 
-        val testmodClient by creating {
+        register("testmodClient") {
             client()
             name = "Testmod Client"
             source(testmod)
         }
 
-        val testmodServer by creating {
-            server()
+        register("testmodServer") {
+            client()
             name = "Testmod Server"
             source(testmod)
         }
@@ -157,24 +159,13 @@ publishing {
     }
 
     repositories {
-        val mavenUsername = System.getenv("MAVEN_USERNAME")
-        val mavenPassword = System.getenv("MAVEN_PASSWORD")
+        maven {
+            val targetRepo = if (isRelease) "releases" else "snapshots"
+            url = uri("https://maven.tobynguyen.dev/$targetRepo")
 
-        if (isRelease) {
-            maven {
-                url = uri("https://maven.tobynguyen.dev/releases")
-                credentials {
-                    username = mavenUsername
-                    password = mavenPassword
-                }
-            }
-        } else {
-            maven {
-                url = uri("https://maven.tobynguyen.dev/snapshots")
-                credentials {
-                    username = mavenUsername
-                    password = mavenPassword
-                }
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
             }
         }
     }
