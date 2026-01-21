@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.loom)
     alias(libs.plugins.kotlin)
@@ -21,15 +23,15 @@ val mod_license: String by project
 val maven_group: String by project
 
 version = if (isRelease) mod_version else "$mod_version-build.$runNumber"
+
 group = maven_group
+
 base.archivesName = mod_id
 
 repositories {
     val urls = setOf("https://maven.parchmentmc.org", "https://maven.terraformersmc.com")
 
-    urls.forEach {
-        maven { url = uri(it) }
-    }
+    urls.forEach { maven { url = uri(it) } }
 
     mavenCentral()
 }
@@ -104,10 +106,18 @@ tasks.withType<ProcessResources>().configureEach {
 tasks.withType<JavaCompile>().configureEach { options.encoding = "UTF-8" }
 
 java {
-    toolchain { languageVersion.set(JavaLanguageVersion.of(17)) }
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+        vendor = JvmVendorSpec.GRAAL_VM
+    }
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 
     withSourcesJar()
 }
+
+kotlin { compilerOptions { jvmTarget = JvmTarget.JVM_17 } }
 
 tasks.named<Jar>("jar") {
     inputs.property("archivesName", project.base.archivesName)
@@ -119,7 +129,12 @@ spotless {
     encoding("UTF-8")
 
     kotlin {
-        ktfmt().kotlinlangStyle()
+        ktfmt().kotlinlangStyle().configure {
+            it.setMaxWidth(100)
+            it.setBlockIndent(4)
+            it.setContinuationIndent(4)
+            it.setRemoveUnusedImports(true)
+        }
         endWithNewline()
         toggleOffOn()
     }
@@ -139,7 +154,7 @@ spotless {
         target("src/*/resources/**/*.json")
         targetExclude("src/generated/resources/**")
 
-        biome("2.3.7")
+        biome("2.3.11")
             .downloadDir(File(rootDir, ".gradle/biome").absolutePath)
             .configPath(File(rootDir, "spotless/biome.json").absolutePath)
 
