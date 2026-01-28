@@ -1,13 +1,18 @@
 <p align="center">
-    <img src="./src/main/resources/assets/sense/icon.png" width="150">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="assets/sense-logo-dark.png">
+        <img src="assets/sense-logo-light.png">
+    </picture>
 </p>
-
-<h1 align="center">Sense</h1>
 
 <p align="center">
-    <a href="https://maven.tobynguyen.dev"><img src="https://maven.tobynguyen.dev/api/badge/latest/releases/dev/tobynguyen27/sense?name=Version"></a>
-    <a href="https://github.com/tobynguyen27/Sense/actions/workflows/build-publish.yml"><img src="https://github.com/tobynguyen27/Sense/actions/workflows/build-publish.yml/badge.svg"></a>
+    <a href="https://github.com/tobynguyen27/sense/actions/workflows/build-publish.yml"><img src="https://img.shields.io/github/actions/workflow/status/tobynguyen27/sense/build-publish.yml?style=for-the-badge&logo=github&logoColor=ffffff&labelColor=1675F2&color=eff1f5" /></a>
+    <a href="https://www.curseforge.com/minecraft/mc-mods/sense"><img src="https://img.shields.io/curseforge/dt/1418112?style=for-the-badge&logo=curseforge&logoColor=ffffff&labelColor=1675F2&color=eff1f5" /></a>
+    <a href="https://www.curseforge.com/minecraft/mc-mods/sense"><img src="https://img.shields.io/curseforge/v/1418112?style=for-the-badge&logo=curseforge&logoColor=ffffff&labelColor=1675F2&color=eff1f5" /></a>
+    <a href="https://discord.gg/RcFhzWGN33"><img src="https://img.shields.io/discord/1466132187286995067?style=for-the-badge&logo=discord&logoColor=ffffff&labelColor=1675F2&color=eff1f5" /></a>
 </p>
+
+---
 
 A mod library designed to simplify mod development. It offers a collection of utilities, enabling developers to create mods more efficiently with cleaner, more concise code.
 
