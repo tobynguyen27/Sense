@@ -1,7 +1,7 @@
 <p align="center">
     <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="assets/sense-logo-dark.png">
-        <img src="assets/sense-logo-light.png">
+        <source media="(prefers-color-scheme: dark)" srcset="assets/sense-logo-dark.png" height="128px">
+        <img src="assets/sense-logo-light.png" height="128px">
     </picture>
 </p>
 
